@@ -10,9 +10,9 @@ namespace SharpDataAccess.Data.Impl
         private readonly IDbConnectionFactory _dbConnectionFactory;
         private readonly IDataAccessLogger _logger;
 
-        public DataService(IDbConnectionFactory dbConnectionFactory, IDataAccessLogger logger)
+        public DataService(IDbConnectionFactoryProvider dbConnectionFactoryProvider, IDataAccessLogger logger)
         {
-            _dbConnectionFactory = dbConnectionFactory;
+            _dbConnectionFactory = dbConnectionFactoryProvider.BuildConnectionFactory();
             _logger = logger;
         }
         
