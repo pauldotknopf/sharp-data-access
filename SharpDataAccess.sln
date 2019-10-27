@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E13501BB-1E2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDataAccess", "src\SharpDataAccess\SharpDataAccess.csproj", "{35E016D3-7634-46F3-B5AA-2BE15AFA4E5A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{216CC1B2-B9F4-4D55-987B-D29F32B2073B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Build", "build\scripts\Build.csproj", "{26E3FD2D-0AEB-4558-9197-8FB8D94842AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,8 +36,21 @@ Global
 		{35E016D3-7634-46F3-B5AA-2BE15AFA4E5A}.Release|x64.Build.0 = Release|Any CPU
 		{35E016D3-7634-46F3-B5AA-2BE15AFA4E5A}.Release|x86.ActiveCfg = Release|Any CPU
 		{35E016D3-7634-46F3-B5AA-2BE15AFA4E5A}.Release|x86.Build.0 = Release|Any CPU
+		{26E3FD2D-0AEB-4558-9197-8FB8D94842AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26E3FD2D-0AEB-4558-9197-8FB8D94842AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26E3FD2D-0AEB-4558-9197-8FB8D94842AC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{26E3FD2D-0AEB-4558-9197-8FB8D94842AC}.Debug|x64.Build.0 = Debug|Any CPU
+		{26E3FD2D-0AEB-4558-9197-8FB8D94842AC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{26E3FD2D-0AEB-4558-9197-8FB8D94842AC}.Debug|x86.Build.0 = Debug|Any CPU
+		{26E3FD2D-0AEB-4558-9197-8FB8D94842AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26E3FD2D-0AEB-4558-9197-8FB8D94842AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26E3FD2D-0AEB-4558-9197-8FB8D94842AC}.Release|x64.ActiveCfg = Release|Any CPU
+		{26E3FD2D-0AEB-4558-9197-8FB8D94842AC}.Release|x64.Build.0 = Release|Any CPU
+		{26E3FD2D-0AEB-4558-9197-8FB8D94842AC}.Release|x86.ActiveCfg = Release|Any CPU
+		{26E3FD2D-0AEB-4558-9197-8FB8D94842AC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{35E016D3-7634-46F3-B5AA-2BE15AFA4E5A} = {E13501BB-1E2A-46E2-851D-1F78D4BB98FD}
+		{26E3FD2D-0AEB-4558-9197-8FB8D94842AC} = {216CC1B2-B9F4-4D55-987B-D29F32B2073B}
 	EndGlobalSection
 EndGlobal
