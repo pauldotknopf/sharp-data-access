@@ -1,3 +1,11 @@
 <Project>
     <Import Project="version.props" />
+    <PropertyGroup>
+        <Authors>Paul Knopf</Authors>
+        <Description>A .NET library for common database functionality (migrations, ambient connection/transactions).</Description>
+        <Copyright>2019</Copyright>
+        <PackageLicenseUrl>https://github.com/pauldotknopf/sharp-data-access/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageProjectUrl>https://github.com/pauldotknopf/sharp-data-access</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/pauldotknopf/sharp-data-access</RepositoryUrl>
+    </PropertyGroup>
 </Project>
