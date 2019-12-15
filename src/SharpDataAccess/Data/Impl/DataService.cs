@@ -2,6 +2,7 @@ using System;
 using System.Data;
 using System.Threading;
 using ServiceStack.Data;
+using ServiceStack.OrmLite;
 
 namespace SharpDataAccess.Data.Impl
 {
@@ -9,16 +10,31 @@ namespace SharpDataAccess.Data.Impl
     {
         private readonly IDbConnectionFactory _dbConnectionFactory;
         private readonly IDataAccessLogger _logger;
+        private readonly DataOptions _options;
 
-        public DataService(IDbConnectionFactoryProvider dbConnectionFactoryProvider, IDataAccessLogger logger)
+        public DataService(
+            IDbConnectionFactoryProvider dbConnectionFactoryProvider,
+            IDataAccessLogger logger,
+            DataOptions options)
         {
             _dbConnectionFactory = dbConnectionFactoryProvider.BuildConnectionFactory();
             _logger = logger;
+            _options = options;
         }
         
         public IDbConnection OpenDbConnection()
         {
             return _dbConnectionFactory.OpenDbConnection();
+        }
+
+        public IDbTransaction OpenTransaction(IDbConnection connection)
+        {
+            var isolationLevel = _options.DefaultTransactionIsolationLevel;
+            if (isolationLevel.HasValue)
+            {
+                return connection.OpenTransaction(isolationLevel.Value);
+            }
+            return connection.OpenTransaction();
         }
 
         public void WaitForDbConnection(TimeSpan timeout)

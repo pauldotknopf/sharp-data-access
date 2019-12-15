@@ -21,7 +21,7 @@ namespace SharpDataAccess.Data
             }
             else
             {
-                _dbConnection.Value = new ContextData(dataService.OpenDbConnection());
+                _dbConnection.Value = new ContextData(dataService.OpenDbConnection(), dataService);
                 _ownsScope = true;
             }
         }
@@ -69,7 +69,7 @@ namespace SharpDataAccess.Data
             var connection = _dbConnection.Value;
             if (connection.Transaction == null)
             {
-                await Task.Run(() => connection.Transaction = connection.Connection.OpenTransaction(IsolationLevel.Serializable));
+                await Task.Run(() => connection.Transaction = connection.DataService.OpenTransaction(connection.Connection));
                 connection.IncrementTransactionCount();
                 return true;
             }
@@ -192,6 +192,7 @@ namespace SharpDataAccess.Data
         {
             public IDbConnection Connection;
             public IDbTransaction Transaction;
+            public IDataService DataService;
 
             public int ChildCount;
             public int TransactionCount;
@@ -200,9 +201,11 @@ namespace SharpDataAccess.Data
             public bool Commmited;
             public bool RolledBack;
             
-            public ContextData(IDbConnection connection)
+            public ContextData(IDbConnection connection,
+                IDataService dataService)
             {
                 Connection = connection;
+                DataService = dataService;
             }
 
             public void IncrementChildCount()
