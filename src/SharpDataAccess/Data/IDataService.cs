@@ -7,6 +7,8 @@ namespace SharpDataAccess.Data
     {
         IDbConnection OpenDbConnection();
 
+        IDbTransaction OpenTransaction(IDbConnection connection);
+        
         void WaitForDbConnection(TimeSpan timeout);
     }
 }
