@@ -33,6 +33,49 @@ namespace SharpDataAccess.Data
                 DataScopeLogger?.ScopeCreated();
             }
         }
+
+        public ConScope(InternalContext internalContext)
+        {
+            _ownsScope = internalContext.OwnsContext;
+            _dbConnection.Value = internalContext.Context as ContextData;
+        }
+
+        internal ConScope(ContextData contextData, bool ownsScope)
+        {
+            _dbConnection.Value = contextData;
+            _ownsScope = ownsScope;
+        }
+
+        public static async Task<InternalContext> GetAsyncContext(IDataService dataService)
+        {
+            if (_dbConnection.Value != null)
+            {
+                // There is already a previous connection.
+                _dbConnection.Value.IncrementChildCount();
+                
+                DataScopeLogger?.ScopeReused();
+
+                return new InternalContext
+                {
+                    Context = _dbConnection.Value,
+                    OwnsContext = false
+                };
+            }
+            else
+            {
+                DataScopeLogger?.ScopeCreating();
+                
+                _dbConnection.Value = new ContextData(dataService.OpenDbConnection(), dataService);
+          
+                DataScopeLogger?.ScopeCreated();
+                
+                return new InternalContext
+                {
+                    Context = _dbConnection.Value,
+                    OwnsContext = true
+                };
+            }
+        }
         
         internal static IDbConnection InternalConnection
         {
@@ -252,6 +295,13 @@ namespace SharpDataAccess.Data
             {
                 TransactionCount--;
             }
+        }
+        
+        public sealed class InternalContext
+        {
+            public bool OwnsContext { get; set; }
+        
+            public object Context { get; set; }
         }
     }
 }

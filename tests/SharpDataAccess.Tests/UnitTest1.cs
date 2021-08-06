@@ -25,7 +25,12 @@ namespace SharpDataAccess.Tests
         public async Task Test1()
         {
             var dataService = new DataService(new TestDbConnectionFactoryProvider(), null, new DataOptions());
-            using (var con = await ConScope.Create(dataService))
+            using (var con = new ConScope(await ConScope.GetAsyncContext(dataService)))
+            {
+                await Test(dataService);
+            }
+            
+            using (var con = new ConScope(await ConScope.GetAsyncContext(dataService)))
             {
                 await Test(dataService);
             }
@@ -33,7 +38,7 @@ namespace SharpDataAccess.Tests
 
         public async Task Test(IDataService dataService)
         {
-            using (var con2 = await ConScope.Create(dataService))
+            using (var con2 = new ConScope(await ConScope.GetAsyncContext(dataService)))
             {
                     
             }
