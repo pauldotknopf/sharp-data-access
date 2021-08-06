@@ -12,14 +12,14 @@ namespace SharpDataAccess.Data
         
         private static readonly AsyncLocal<ContextData> _dbConnection = new AsyncLocal<ContextData>();
         private readonly bool _ownsScope;
-
+        
         public ConScope(IDataService dataService)
         {
             if (_dbConnection.Value != null)
             {
                 // There is already a previous connection.
-                _dbConnection.Value.IncrementChildCount();
                 _ownsScope = false;
+                _dbConnection.Value.IncrementChildCount();
                 
                 DataScopeLogger?.ScopeReused();
             }
@@ -31,34 +31,6 @@ namespace SharpDataAccess.Data
                 _ownsScope = true;
                 
                 DataScopeLogger?.ScopeCreated();
-            }
-        }
-        
-        private ConScope(bool ownsScope)
-        {
-            _ownsScope = ownsScope;
-        }
-
-        public static async Task<ConScope> Create(IDataService dataService)
-        {
-            if (_dbConnection.Value != null)
-            {
-                // There is already a previous connection.
-                _dbConnection.Value.IncrementChildCount();
-                
-                DataScopeLogger?.ScopeReused();
-
-                return new ConScope(false);
-            }
-            else
-            {
-                DataScopeLogger?.ScopeCreating();
-                
-                _dbConnection.Value = new ContextData(await dataService.OpenDbConnectionAsync(), dataService);
-                
-                DataScopeLogger?.ScopeCreated();
-
-                return new ConScope(true);
             }
         }
         

@@ -1,7 +1,6 @@
 using System;
 using System.Data;
 using System.Threading;
-using System.Threading.Tasks;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 
@@ -26,11 +25,6 @@ namespace SharpDataAccess.Data.Impl
         public IDbConnection OpenDbConnection()
         {
             return _dbConnectionFactory.OpenDbConnection();
-        }
-
-        public async Task<IDbConnection> OpenDbConnectionAsync()
-        {
-            return await _dbConnectionFactory.OpenDbConnectionAsync();
         }
 
         public IDbTransaction OpenTransaction(IDbConnection connection)
