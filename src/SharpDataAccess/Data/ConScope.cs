@@ -8,6 +8,8 @@ namespace SharpDataAccess.Data
 {
     public class ConScope : IDisposable
     {
+        public static IDataScopeLogger DataScopeLogger { get; set; }
+        
         private static readonly AsyncLocal<ContextData> _dbConnection = new AsyncLocal<ContextData>();
         private readonly bool _ownsScope;
         
@@ -18,11 +20,17 @@ namespace SharpDataAccess.Data
                 // There is already a previous connection.
                 _ownsScope = false;
                 _dbConnection.Value.IncrementChildCount();
+                
+                DataScopeLogger?.ScopeReused();
             }
             else
             {
+                DataScopeLogger?.ScopeCreating();
+                
                 _dbConnection.Value = new ContextData(dataService.OpenDbConnection(), dataService);
                 _ownsScope = true;
+                
+                DataScopeLogger?.ScopeCreated();
             }
         }
         
@@ -69,12 +77,20 @@ namespace SharpDataAccess.Data
             var connection = _dbConnection.Value;
             if (connection.Transaction == null)
             {
+                DataScopeLogger?.TransactionCreating();
+                
                 await Task.Run(() => connection.Transaction = connection.DataService.OpenTransaction(connection.Connection));
                 connection.IncrementTransactionCount();
+
+                DataScopeLogger?.TransactionCreated();
+                
                 return true;
             }
             
             connection.IncrementTransactionCount();
+            
+            DataScopeLogger?.TransactionReused();
+            
             return false;
         }
         
@@ -99,8 +115,13 @@ namespace SharpDataAccess.Data
                 {
                     throw new Exception("Disposed of transaction scope without commiting or rolling back");
                 }
+
+                DataScopeLogger?.TransactionDestroying();
+                
                 connection.Transaction.Dispose();
                 connection.Transaction = null;
+                
+                DataScopeLogger?.TransactionDestroyed();
             }
         }
 
@@ -179,8 +200,12 @@ namespace SharpDataAccess.Data
                     throw new Exception("Transaction scopes are alive while connection is being disposed");
                 }
                 
+                DataScopeLogger?.ScopeDestroying();
+                
                 connection.Connection.Dispose();
                 _dbConnection.Value = null;
+                
+                DataScopeLogger?.ScopeDestroyed();
             }
             else
             {
