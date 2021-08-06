@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{216CC1B2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Build", "build\scripts\Build.csproj", "{26E3FD2D-0AEB-4558-9197-8FB8D94842AC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDataAccess.Tests", "tests\SharpDataAccess.Tests\SharpDataAccess.Tests.csproj", "{B4E457E1-B5D8-4684-868B-66760845155E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,18 @@ Global
 		{26E3FD2D-0AEB-4558-9197-8FB8D94842AC}.Release|x64.Build.0 = Release|Any CPU
 		{26E3FD2D-0AEB-4558-9197-8FB8D94842AC}.Release|x86.ActiveCfg = Release|Any CPU
 		{26E3FD2D-0AEB-4558-9197-8FB8D94842AC}.Release|x86.Build.0 = Release|Any CPU
+		{B4E457E1-B5D8-4684-868B-66760845155E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4E457E1-B5D8-4684-868B-66760845155E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4E457E1-B5D8-4684-868B-66760845155E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B4E457E1-B5D8-4684-868B-66760845155E}.Debug|x64.Build.0 = Debug|Any CPU
+		{B4E457E1-B5D8-4684-868B-66760845155E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B4E457E1-B5D8-4684-868B-66760845155E}.Debug|x86.Build.0 = Debug|Any CPU
+		{B4E457E1-B5D8-4684-868B-66760845155E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4E457E1-B5D8-4684-868B-66760845155E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4E457E1-B5D8-4684-868B-66760845155E}.Release|x64.ActiveCfg = Release|Any CPU
+		{B4E457E1-B5D8-4684-868B-66760845155E}.Release|x64.Build.0 = Release|Any CPU
+		{B4E457E1-B5D8-4684-868B-66760845155E}.Release|x86.ActiveCfg = Release|Any CPU
+		{B4E457E1-B5D8-4684-868B-66760845155E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{35E016D3-7634-46F3-B5AA-2BE15AFA4E5A} = {E13501BB-1E2A-46E2-851D-1F78D4BB98FD}

@@ -12,14 +12,14 @@ namespace SharpDataAccess.Data
         
         private static readonly AsyncLocal<ContextData> _dbConnection = new AsyncLocal<ContextData>();
         private readonly bool _ownsScope;
-
+        
         public ConScope(IDataService dataService)
         {
             if (_dbConnection.Value != null)
             {
                 // There is already a previous connection.
-                _dbConnection.Value.IncrementChildCount();
                 _ownsScope = false;
+                _dbConnection.Value.IncrementChildCount();
                 
                 DataScopeLogger?.ScopeReused();
             }
@@ -33,13 +33,20 @@ namespace SharpDataAccess.Data
                 DataScopeLogger?.ScopeCreated();
             }
         }
-        
-        private ConScope(bool ownsScope)
+
+        public ConScope(InternalContext internalContext)
         {
+            _ownsScope = internalContext.OwnsContext;
+            _dbConnection.Value = internalContext.Context as ContextData;
+        }
+
+        internal ConScope(ContextData contextData, bool ownsScope)
+        {
+            _dbConnection.Value = contextData;
             _ownsScope = ownsScope;
         }
 
-        public static async Task<ConScope> Create(IDataService dataService)
+        public static async Task<InternalContext> GetAsyncContext(IDataService dataService)
         {
             if (_dbConnection.Value != null)
             {
@@ -48,17 +55,25 @@ namespace SharpDataAccess.Data
                 
                 DataScopeLogger?.ScopeReused();
 
-                return new ConScope(false);
+                return new InternalContext
+                {
+                    Context = _dbConnection.Value,
+                    OwnsContext = false
+                };
             }
             else
             {
                 DataScopeLogger?.ScopeCreating();
                 
-                _dbConnection.Value = new ContextData(await dataService.OpenDbConnectionAsync(), dataService);
-                
+                _dbConnection.Value = new ContextData(dataService.OpenDbConnection(), dataService);
+          
                 DataScopeLogger?.ScopeCreated();
-
-                return new ConScope(true);
+                
+                return new InternalContext
+                {
+                    Context = _dbConnection.Value,
+                    OwnsContext = true
+                };
             }
         }
         
@@ -280,6 +295,13 @@ namespace SharpDataAccess.Data
             {
                 TransactionCount--;
             }
+        }
+        
+        public sealed class InternalContext
+        {
+            public bool OwnsContext { get; set; }
+        
+            public object Context { get; set; }
         }
     }
 }
